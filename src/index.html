@@ -5,9 +5,283 @@
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>MP1</title>
+
+         <!-- Webfont -->
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+
+        <!-- Font Awesome Icons -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
     </head>
+
     <body>
-        <h1>Hello World! Welcome to MP1!</h1>
-        <img src="assets/image.jpg">
+        <!-- Sticky Navbar -->
+        <header id="navbar" class="reveal">
+        <nav aria-label="Primary">
+            <a class="brand" href="#hero">
+            <i class="fa-solid fa-rocket" aria-hidden="true"></i>
+            <span>Che Liu</span>
+            </a>
+
+            <ul>
+            <li><a href="#hero" class="active">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#contact">Contact</a></li>
+            </ul>
+
+            <!-- Reading position indicator -->
+            <div id="scroll-indicator" aria-hidden="true"></div>
+        </nav>
+        </header>
+
+        <main id="content">
+        <!-- Hero -->
+        <section id="hero" aria-label="Intro">
+            <video
+            class="hero-bg-video"
+            src="assets/video/dark_space.mp4"
+            muted
+            autoplay
+            loop
+            playsinline
+            aria-hidden="true"
+            ></video>
+
+            <div class="hero-content">
+            <h1 class="reveal">Hi, I'm Che Liu</h1>
+            <p class="reveal">Web Developer · Designer · Creator</p>
+
+            <div class="cta reveal">
+                <a class="btn primary" href="#projects">
+                <i class="fa-solid fa-folder-open" aria-hidden="true"></i>
+                <span>View Projects</span>
+                </a>
+                <a class="btn" href="#contact">
+                <i class="fa-regular fa-paper-plane" aria-hidden="true"></i>
+                <span>Contact</span>
+                </a>
+            </div>
+            </div>
+        </section>
+
+        <!-- About -->
+        <section id="about" aria-labelledby="about-title">
+            <div class="about-container">
+            <div class="about-text reveal">
+                <h2 id="about-title">About Me</h2>
+
+                <div class="about-multicol">
+                <p>
+                    I’m a dedicated engineer who loves building delightful, performant web
+                    experiences. I care about clean code, design systems, and tiny details that
+                    make interfaces feel alive.
+                </p>
+                <p>
+                    My recent focus: accessible UI patterns, micro-animations, and efficient
+                    rendering. Outside code, I sketch interfaces and read about typography.
+                </p>
+                <p>
+                    I aim to craft products that are both beautiful and useful—where motion has
+                    meaning, and every pixel has a purpose.
+                </p>
+                </div>
+            </div>
+
+            <figure class="about-img reveal">
+                <img src="assets/image/image.jpg" alt="Portrait of Che Liu" />
+            </figure>
+            </div>
+        </section>
+
+        <!-- Experience -->
+        <section id="experience" aria-labelledby="experience-title">
+            <div class="about-text reveal">
+            <h2 id="experience-title">Experience</h2>
+
+            <div class="xp-grid">
+                <article class="xp-item">
+                <div class="xp-icon" aria-hidden="true">
+                    <i class="fa-solid fa-code"></i>
+                </div>
+                <h3 class="xp-title">2025 – Present · Web Developer</h3>
+                <p class="xp-desc">
+                    Neon Labs — Built scalable UI components and led accessibility initiatives for a SaaS dashboard.
+                </p>
+                </article>
+
+                <article class="xp-item">
+                <div class="xp-icon" aria-hidden="true">
+                    <i class="fa-solid fa-laptop-code"></i>
+                </div>
+                <h3 class="xp-title">2023 – 2025 · Frontend Engineer</h3>
+                <p class="xp-desc">
+                    Pixel Studio — Interactive landing pages, performance and SEO optimization.
+                </p>
+                </article>
+
+                <article class="xp-item">
+                <div class="xp-icon" aria-hidden="true">
+                    <i class="fa-solid fa-pen-ruler"></i>
+                </div>
+                <h3 class="xp-title">2021 – 2023 · UI/UX Designer</h3>
+                <p class="xp-desc">
+                    Creative Minds — User-centered design for mobile and web with product teams.
+                </p>
+                </article>
+            </div>
+            </div>
+        </section>
+
+        <!-- Projects (Slides are direct children; JS will wrap them into viewport/track) -->
+        <section id="projects" aria-labelledby="projects-title">
+            <h2 id="projects-title" class="reveal">Projects</h2>
+
+            <div class="carousel reveal" aria-roledescription="carousel">
+            <article class="slide" aria-label="1 / 3">
+                <h3>Neon Portfolio</h3>
+                <p class="meta">Design system + responsive layout</p>
+                <p>
+                A minimalist, lightning-fast portfolio powered by semantic HTML + SCSS utilities and progressive enhancement.
+                </p>
+                <p class="links"><a href="#" rel="noopener noreferrer">Case Study</a></p>
+            </article>
+
+            <article class="slide" aria-label="2 / 3">
+                <h3>Canvas Playground</h3>
+                <p class="meta">WebGL-ish visuals with Canvas 2D</p>
+                <p>
+                Generative particles and shader-like effects, focused on motion design and accessibility toggles.
+                </p>
+                <p class="links"><a href="#" rel="noopener noreferrer">Demo</a></p>
+            </article>
+
+            <article class="slide" aria-label="3 / 3">
+                <h3>Form UX Kit</h3>
+                <p class="meta">Validation patterns + a11y</p>
+                <p>
+                A set of headless, accessible form components with micro-interactions and robust error states.
+                </p>
+                <p class="links"><a href="#" rel="noopener noreferrer">Docs</a></p>
+            </article>
+
+            <button class="prev" type="button" aria-label="Previous slide">&#10094;</button>
+            <button class="next" type="button" aria-label="Next slide">&#10095;</button>
+            <!-- dots will be appended by JS -->
+            </div>
+        </section>
+
+        <!-- Skills -->
+        <section id="skills" aria-labelledby="skills-title">
+            <div class="skills-bg">
+            <div class="skills-content">
+                <h2 id="skills-title" class="reveal">Skills</h2>
+
+                <ul class="tag-cloud reveal" aria-label="Skill tags">
+                <li><span>#AWS</span></li><li><span>#EC2</span></li><li><span>#Lambda</span></li>
+                <li><span>#DynamoDB</span></li><li><span>#C</span></li><li><span>#C++</span></li>
+                <li><span>#MySQL</span></li><li><span>#Python</span></li><li><span>#Shell</span></li>
+                <li><span>#Node.js</span></li><li><span>#Docker</span></li><li><span>#GitHub</span></li>
+                <li><span>#C#</span></li><li><span>#Golang</span></li><li><span>#Java</span></li>
+                <li><span>#SpringBoot</span></li><li><span>#Quarkus</span></li><li><span>#React</span></li>
+                <li><span>#Next.js</span></li><li><span>#Flutter</span></li><li><span>#Kubernetes</span></li>
+                </ul>
+            </div>
+            </div>
+        </section>
+
+        <!-- Gallery -->
+        <section id="gallery" aria-labelledby="gallery-title"></section>
+
+        <!-- Contact -->
+        <section id="contact" aria-labelledby="contact-title">
+            <h2 id="contact-title" class="reveal">Contact Me</h2>
+            <div class="card reveal">
+            <p>I'd love to connect—drop me a message!</p>
+            <button id="contactBtn" class="btn" type="button" aria-haspopup="dialog" aria-controls="contactModal">
+                <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+                <span>Open Contact</span>
+            </button>
+            </div>
+        </section>
+        </main>
+
+        <!-- Contact Modal -->
+        <div
+        id="contactModal"
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="contactTitle"
+        aria-describedby="contactDesc"
+        >
+        <div class="modal-content">
+            <button class="close" type="button" aria-label="Close dialog">&times;</button>
+            <h3 id="contactTitle">Say hi 👋</h3>
+            <p id="contactDesc">Find me on:</p>
+            <p>Email: <a href="mailto:cheliu754@gmail.com">cheliu754@gmail.com</a></p>
+            <p>
+            GitHub:
+            <a href="https://github.com/cheliu754" target="_blank" rel="noopener noreferrer">github.com/cheliu754</a>
+            </p>
+            <p>
+            LinkedIn:
+            <a href="https://linkedin.com/in/cheliu2" target="_blank" rel="noopener noreferrer">linkedin.com/in/cheliu2</a>
+            </p>
+            <div class="socials">
+            <a href="https://github.com/cheliu754" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-github" aria-hidden="true"></i> GitHub
+            </a>
+            <a href="https://linkedin.com/in/cheliu2" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-linkedin" aria-hidden="true"></i> LinkedIn
+            </a>
+            <a href="#" aria-label="X / Twitter">
+                <i class="fa-brands fa-x-twitter" aria-hidden="true"></i> X
+            </a>
+            </div>
+        </div>
+        </div>
+
+        <!-- Experience Detail Modal (reused) -->
+        <div
+        id="projectModal"
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="projectTitle"
+        aria-describedby="projectDesc"
+        >
+        <div class="modal-content project-modal">
+            <button class="close" type="button" aria-label="Close dialog">&times;</button>
+            <h3 id="projectTitle"></h3>
+            <p id="projectMeta" class="meta" hidden></p>
+            <div id="projectBody"></div>
+            <p id="projectLinkWrap" style="margin-top:12px;" hidden>
+            <a id="projectLink" href="#" target="_blank" rel="noopener noreferrer">Open link</a>
+            </p>
+        </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+        <div class="footer-content">
+            <p>&copy; <span id="year">2025</span> Che Liu</p>
+            <div class="social-icons" aria-label="Social links">
+            <a href="https://github.com/cheliu754" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                <i class="fa-brands fa-github" aria-hidden="true"></i>
+            </a>
+            <a href="https://linkedin.com/in/cheliu2" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                <i class="fa-brands fa-linkedin" aria-hidden="true"></i>
+            </a>
+            <a href="#" aria-label="X / Twitter">
+                <i class="fa-brands fa-x-twitter" aria-hidden="true"></i>
+            </a>
+            </div>
+        </div>
+        </footer>
+        
     </body>
 </html>
+
