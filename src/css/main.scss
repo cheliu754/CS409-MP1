@@ -1,33 +1,72 @@
+// ============ Palette & Helpers ============
 $font-sans: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, 'Apple Color Emoji', 'Segoe UI Emoji';
 
-$space-1: 4px;
-$space-2: 8px;
-$space-3: 12px;
-$space-4: 16px;
-$space-5: 20px;
-$space-6: 24px;
-$space-7: 28px;
-$space-8: 32px;
+$space-1: 4px;  $space-2: 8px;  $space-3: 12px; $space-4: 16px;
+$space-5: 20px; $space-6: 24px; $space-7: 28px; $space-8: 32px;
 
-$radius-sm: 8px;
-$radius-md: 10px;
-$radius-lg: 12px;
-$radius-xl: 14px;
-$radius-pill: 999px;
+$radius-sm: 8px; $radius-md: 10px; $radius-lg: 12px; $radius-xl: 14px; $radius-pill: 999px;
 
 $timing-fast: .2s ease;
-$timing-med: .3s ease;
+$timing-med:  .3s ease;
 
-$shadow: 0 10px 30px rgba(0,0,0,.35);
+$nav-h-lg: 92px;
+$nav-h-sm: 64px;
+$maxw:     1200px;
 
+/* 基础调色板（不含透明） */
 $colors: (
   brand:   #5a67d8,
   brand2:  #0ea5e9,
+  accent:  #4cafef,
   bg:      #0a0f1d,
+  surface: #0f172a,
   text:    #e5e7eb,
   muted:   #9ca3af,
-  border:  rgba(255,255,255,.12),
+  white:   #ffffff,
+  black:   #000000,
+  border:  a(white, .55)
 );
+
+// 读取纯色
+@function c($key) { @return map-get($colors, $key); }
+
+// 纯色 + 透明度 => rgba(...)（唯一允许生成 rgba 的地方）
+@function a($key, $alpha) {
+  $col: c($key);
+  @return rgba(red($col), green($col), blue($col), $alpha);
+}
+
+//  Derived tokens (由 a() 生成的半透明/阴影等)
+$border:                 a(white, .25);
+$glass-bg:               a(white, .05);
+$shadow:                 0 10px 30px a(black, .35);
+$shadow-navbar:          0 6px 18px  a(black, .25);
+$shadow-elev-2:          0 8px 24px  a(black, .18);
+
+$navbar-bg:              a(surface, .55);
+$navbar-bg-shrink:       a(surface, .8);
+
+$cta-bg:                 a(white, .06);
+$cta-bg-hover:           a(white, .12);
+
+$slide-grad:             linear-gradient(180deg, a(white, .03), a(white, .02));
+
+$carousel-arrow-bg:      a(black, .35);
+$carousel-arrow-hover:   a(white, .15);
+
+$dot-bg:                 a(white, .35);
+$dot-active-bg:          c(white);
+$dot-focus-ring:         0 0 0 3px a(white, .25);
+
+$accent-border-hover:    a(accent, .6);
+$accent-glow:            0 4px 18px a(accent, .35);
+
+$gallery-overlay:        a(black, .18);
+$gallery-text-shadow:    0 2px 18px a(black, .5);
+
+$modal-backdrop:         a(black, .5);
+$indicator-gradient:     linear-gradient(90deg, c(brand), c(brand2));
+
 
 $nav-h-lg: 92px;
 $nav-h-sm: 64px;
@@ -35,22 +74,20 @@ $maxw:     1200px;
 
 /* Breakpoints (min-width) */
 $bp: (
-  xs: 480px,
-  sm: 768px,
-  md: 1024px,
-  lg: 1280px,
-  xl: 1440px,
-  xxl: 1920px
+  xs: 480px, sm: 768px, md: 1024px, lg: 1280px, xl: 1440px, xxl: 1920px
 );
 
 /* Z-index scale */
-$z: (
-  navbar: 1000,
-  modal:  9000
-);
+$z: ( navbar: 1000, modal: 9000 );
 
-// Helpers
+// ---------- Helpers ----------
 @function c($key) { @return map-get($colors, $key); }
+
+// 任何调色板颜色 + 透明度  =>  rgba(...)
+@function a($key, $alpha) {
+  $col: c($key);
+  @return rgba(red($col), green($col), blue($col), $alpha);
+}
 
 @function clampREM($min, $pref, $max) {
   @return clamp(#{$min}rem, #{$pref}vw, #{$max}rem);
@@ -71,19 +108,19 @@ $z: (
 }
 
 @mixin glass {
-  background: rgba(255,255,255,.05);
+  background: $navbar-bg;
   border: 1px solid c(border);
   box-shadow: $shadow;
   backdrop-filter: saturate(120%) blur(10px);
   border-radius: $radius-xl;
 }
 
-@mixin focus-ring($color: map-get($colors, brand)) {
-  &:focus-visible {
-    outline: 2px dashed $color;
-    outline-offset: 3px;
+@mixin focus-ring($color: c(brand)) {
+  &:focus-visible { 
+    outline: 2px dashed $color; outline-offset: 3px;
   }
 }
+
 
 // Base / Resets
 * { box-sizing: border-box; }
@@ -100,8 +137,8 @@ body {
   font-family: $font-sans;
   color: c(text);
   background:
-    radial-gradient(1200px 600px at 10% 0%, rgba(94,96,206,.12), transparent 60%),
-    radial-gradient(1200px 600px at 90% 20%, rgba(14,165,233,.12), transparent 60%),
+    radial-gradient(1200px 600px at 10% 0%, a(brand, .12), transparent 60%),
+    radial-gradient(1200px 600px at 90% 20%, a(brand2, .12), transparent 60%),
     c(bg);
 }
 
@@ -122,15 +159,13 @@ p { color: c(muted); margin: 0 0 $space-4; }
   top: 0;
   z-index: map-get($z, navbar);
   height: $nav-h-lg;
-  background: rgba(15,23,42,.55);
+  background: a(surface, .65);
   border-bottom: 1px solid c(border);
   backdrop-filter: blur(12px);
   transition: height $timing-med, background-color $timing-med, box-shadow $timing-med;
 
-  &.shrink {
-    height: $nav-h-sm;
-    background: rgba(15,23,42,.8);
-    box-shadow: 0 6px 18px rgba(0,0,0,.25);
+  &.shrink { 
+    background: a(surface, .8);
   }
 
   nav {
@@ -175,8 +210,12 @@ p { color: c(muted); margin: 0 0 $space-4; }
       transition: color $timing-fast, transform $timing-fast, background-color $timing-fast;
       color: c(muted);
 
-      &:hover { color: c(text); transform: translateY(-1px) scale(var(--nav-scale)); }
-      &.active { background: rgba(14,164,233,.798); } /* 保持只改背景，不改文字色 */
+      &:hover { 
+        color: c(text); transform: translateY(-1px) scale(var(--nav-scale));
+      }
+      &.active { 
+        background: a(brand2, .8);
+      } /* 保持只改背景，不改文字色 */
     }
   }
 }
@@ -186,7 +225,7 @@ p { color: c(muted); margin: 0 0 $space-4; }
   position: absolute;
   left: 0; bottom: 0;
   height: 3px; width: 0%;
-  background: linear-gradient(90deg, c(brand), c(brand2));
+  background: $indicator-gradient;
   transition: width .1s linear;
   will-change: width;
 }
@@ -242,14 +281,17 @@ section {
       border-radius: $radius-md;
       border: 1px solid c(border);
       color: white;
-      background: rgba(255,255,255,.06);
+      background: $cta-bg;
       transition: transform $timing-fast, background $timing-fast;
 
       &.primary {
         background: linear-gradient(90deg, c(brand), c(brand2));
         border-color: transparent;
       }
-      &:hover { transform: translateY(-1px); background: rgba(255,255,255,.12); }
+      &:hover { 
+        transform: translateY(-1px);
+        background: $cta-bg-hover;
+      }
     }
   }
 }
@@ -294,14 +336,14 @@ section {
     border: 1px solid c(border);
     border-radius: $radius-lg;
     padding: 1.25rem;
-    background: rgba(255,255,255,.03);
+    background: $glass-bg;
     backdrop-filter: blur(2px);
     transition: transform $timing-fast, box-shadow $timing-fast, border-color $timing-fast;
 
     &:hover, &:focus-within {
       transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(0,0,0,.18);
-      border-color: rgba(76,175,239,.6);
+      box-shadow: $shadow-elev-2;
+      border-color: $accent-border-hover;
     }
   }
 
@@ -314,8 +356,8 @@ section {
     i {
       font-size: 56px;
       line-height: 1;
-      color: #4cafef;
-      text-shadow: 0 4px 18px rgba(76,175,239,.35);
+      color: c(accent);
+      text-shadow: $accent-glow;
     }
   }
 
@@ -325,7 +367,7 @@ section {
 
 // Projects (Carousel)
 #projects {
-  width: 100%;
+//   width: 100%;
 
   .carousel {
     @include glass;
@@ -348,7 +390,7 @@ section {
     padding: $space-6;
     display: grid;
     gap: 14px;
-    background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.02));
+    background: $slide-grad;
 
     .meta { color: c(muted); }
     .links a { color: c(brand2); text-decoration: underline; }
@@ -362,13 +404,13 @@ section {
     width: 44px; height: 44px;
     border-radius: 50%;
     border: 1px solid c(border);
-    background: rgba(0,0,0,.35);
-    color: white;
+    background: $carousel-arrow-bg;
+    color: c(white);
     display: grid; place-items: center;
     cursor: pointer;
     transition: background $timing-fast, transform $timing-fast;
 
-    &:hover { background: rgba(255,255,255,.15); transform: translateY(-50%) scale(1.04); }
+    &:hover { background: $carousel-arrow-hover; transform: translateY(-50%) scale(1.04); }
   }
   button.prev { left: 10px; }
   button.next { right: 10px; }
@@ -390,20 +432,20 @@ section {
       width: 10px; height: 10px;
       border-radius: 50%;
       border: 0;
-      background: rgba(255,255,255,.35);
+      background: $dot-bg;
       outline: none;
       cursor: pointer;
       opacity: .9;
       transition: transform $timing-fast, background-color $timing-fast, opacity $timing-fast;
 
       &.active {
-        background: #fff;
+        background: $dot-active-bg;
         transform: scale(1.15);
       }
 
       &:hover, &:focus-visible {
-        background: #fff;
-        box-shadow: 0 0 0 3px rgba(255,255,255,.25);
+        background: $dot-active-bg;
+        box-shadow: $dot-focus-ring;
       }
     }
 
@@ -475,13 +517,13 @@ section {
     display: grid;
     place-items: center;
     text-align: center;
-    color: #fff;
-    text-shadow: 0 2px 18px rgba(0,0,0,.5);
+    color: c(white);
+    text-shadow: $gallery-text-shadow;
     border-radius: $radius-lg;
     border: 1px solid c(border);
     box-shadow: $shadow;
     padding: clamp(16px, 3vw, 32px);
-    background: rgba(0,0,0,.18);
+    background: $gallery-overlay;
   }
 
   .panel > div {
