@@ -189,12 +189,12 @@ const initExperienceModal = () => {
   };
 
   const extractFromCard = card => {
-    const title = $('.xp-title', card)?.textContent?.trim() || 'Experience';
-    const desc = $('.xp-desc', card)?.textContent?.trim() || '';
+    const title = $('.exp_title', card)?.textContent?.trim() || 'Experience';
+    const desc = $('.exp_desc', card)?.textContent?.trim() || '';
     return { title, desc, paragraphs: [desc] };
   };
 
-  $$('#experience .xp-item').forEach(card => {
+  $$('#experience .exp_item').forEach(card => {
     card.style.cursor = 'pointer';
     card.tabIndex = 0;
 

@@ -1,5 +1,7 @@
 $font-sans: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, 'Apple Color Emoji', 'Segoe UI Emoji';
 
+
+// 距离 Definition
 $space-1: 4px;  $space-2: 8px;  $space-3: 12px; $space-4: 16px;
 $space-5: 20px; $space-6: 24px; $space-7: 28px; $space-8: 32px;
 
@@ -12,75 +14,26 @@ $nav-h-lg: 92px;
 $nav-h-sm: 64px;
 $maxw:     1200px;
 
-// Colors Abstraction
-$colors: (
-  brand:   #5a67d8,
-  brand2:  #0ea5e9,
-  accent:  #4cafef,
-  bg:      #0a0f1d,
-  surface: #0f172a,
-  text:    #e5e7eb,
-  muted:   #9ca3af,
-  white:   #ffffff,
-  black:   #000000,
-  border:  a(white, .55)
+$bp: (
+  xs: 480px, sm: 768px, md: 1024px, lg: 1280px, xl: 1440px, xxl: 1920px
 );
 
-// get the color
+$z: ( 
+  navbar: 1000, modal: 9000
+);
+// end Definition
+
+
+// color function
 @function c($key) { @return map-get($colors, $key); }
 
-// color + opacity, returns rgba(...)
+// returns rgba
 @function a($key, $alpha) {
   $col: c($key);
   @return rgba(red($col), green($col), blue($col), $alpha);
 }
 
-// tokens
-$border:                 a(white, .25);
-$glass-bg:               a(white, .05);
-$shadow:                 0 10px 30px a(black, .35);
-$shadow-navbar:          0 6px 18px  a(black, .25);
-$shadow-elev-2:          0 8px 24px  a(black, .18);
-
-$navbar-bg:              a(surface, .55);
-$navbar-bg-shrink:       a(surface, .8);
-
-$cta-bg:                 a(white, .06);
-$cta-bg-hover:           a(white, .12);
-
-$slide-grad:             linear-gradient(180deg, a(white, .03), a(white, .02));
-
-$carousel-arrow-bg:      a(black, .35);
-$carousel-arrow-hover:   a(white, .15);
-
-$dot-bg:                 a(white, .35);
-$dot-active-bg:          c(white);
-$dot-focus-ring:         0 0 0 3px a(white, .25);
-
-$accent-border-hover:    a(accent, .6);
-$accent-glow:            0 4px 18px a(accent, .35);
-
-$gallery-overlay:        a(black, .18);
-$gallery-text-shadow:    0 2px 18px a(black, .5);
-
-$modal-backdrop:         a(black, .5);
-$indicator-gradient:     linear-gradient(90deg, c(brand), c(brand2));
-
-$nav-h-lg: 92px;
-$nav-h-sm: 64px;
-$maxw:     1200px;
-
-// Breakpoints
-$bp: (
-  xs: 480px, sm: 768px, md: 1024px, lg: 1280px, xl: 1440px, xxl: 1920px
-);
-
-// Z-index scale
-$z: ( 
-  navbar: 1000, modal: 9000
-);
-
-//  Helpers 
+// helpers
 @function clampREM($min, $pref, $max) {
   @return clamp(#{$min}rem, #{$pref}vw, #{$max}rem);
 }
@@ -116,6 +69,53 @@ $z: (
     outline: 2px dashed $color; outline-offset: 3px;
   }
 }
+
+
+// Color Definition
+$colors: (
+  brand:   #5a67d8,
+  brand2:  #0ea5e9,
+  accent:  #4cafef,
+  bg:      #0a0f1d,
+  surface: #0f172a,
+  text:    #e5e7eb,
+  muted:   #9ca3af,
+  white:   #ffffff,
+  black:   #000000,
+  border:  a(white, .55)
+);
+
+$border:                 a(white, .25);
+$glass-bg:               a(white, .05);
+$shadow:                 0 10px 30px a(black, .35);
+$shadow-navbar:          0 6px 18px  a(black, .25);
+$shadow-elev-2:          0 8px 24px  a(black, .18);
+
+$navbar-bg:              a(surface, .55);
+$navbar-bg-shrink:       a(surface, .8);
+
+$cta-bg:                 a(white, .06);
+$cta-bg-hover:           a(white, .12);
+
+$slide-grad:             linear-gradient(180deg, a(white, .03), a(white, .02));
+
+$carousel-arrow-bg:      a(black, .35);
+$carousel-arrow-hover:   a(white, .15);
+
+$dot-bg:                 a(white, .35);
+$dot-active-bg:          c(white);
+$dot-focus-ring:         0 0 0 3px a(white, .25);
+
+$accent-border-hover:    a(accent, .6);
+$accent-glow:            0 4px 18px a(accent, .35);
+
+$gallery-overlay:        a(black, .18);
+$gallery-text-shadow:    0 2px 18px a(black, .5);
+
+$modal-backdrop:         a(black, .5);
+$indicator-gradient:     linear-gradient(90deg, c(brand), c(brand2));
+
+
 
 
 // Base
@@ -173,7 +173,9 @@ p {
   transition: height $timing-med, background-color $timing-med, box-shadow $timing-med;
 
   &.shrink { 
+    height: $nav-h-sm;      // ↓ 滚动后缩到 64px
     background: a(surface, .8);
+    box-shadow: $shadow-navbar;
   }
 
   nav {
@@ -182,7 +184,7 @@ p {
     display: flex;
     align-items: center;
     gap: $space-5;
-    position: relative; /* progress bar base */
+    position: relative;
   }
 
   .brand {
@@ -313,7 +315,7 @@ section {
 
 // About
 #about {
-  .about-container {
+  .about_container {
     display: grid;
     gap: $space-7;
     align-items: center;
@@ -324,11 +326,11 @@ section {
     }
   }
 
-  .about-text { 
+  .about_text { 
     @include glass; 
     padding: $space-6;
   }
-  .about-img  {
+  .about_img  {
     @include glass; 
     padding: $space-3;
     img { 
@@ -337,10 +339,10 @@ section {
   }
 
   @include respond(md) {
-    .about-img { display: none; }
+    .about_img { display: none; }
   }
 
-  .about-multicol {
+  .about_multicol {
     column-count: 2;
     column-gap: $space-7;
 
@@ -356,7 +358,7 @@ section {
 // Experience
 #experience {
   text-align: center;
-  .xp-grid {
+  .exp_grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
@@ -364,7 +366,7 @@ section {
     // justify-items: center;
   }
 
-  .xp-item {
+  .exp_item {
     border: 1px solid c(border);
     border-radius: $radius-lg;
     padding: 1.25rem;
@@ -381,7 +383,7 @@ section {
     }
   }
 
-  .xp-icon {
+  .exp_icon {
     display: grid;
     place-items: center;
     height: 80px;
@@ -395,12 +397,12 @@ section {
     }
   }
 
-  .xp-title {
+  .exp_title {
     font-size: 1.05rem;
     font-weight: 700;
     margin: 0 0 .25rem 0;
   }
-  .xp-desc  {
+  .exp_desc  {
     margin: 0;
     opacity: .9;
   }
@@ -414,9 +416,9 @@ section {
     @include glass;
     position: relative;
     width: 100%;
-    padding: $space-3;  /* 与其余卡片风格一致 */
-    padding-bottom: 40px; /* 为圆点留空间 */
-    overflow: hidden; /* 防止阴影撑宽 */
+    padding: $space-3; 
+    padding-bottom: 40px; 
+    overflow: hidden;
   }
 
   .viewport {
@@ -514,11 +516,9 @@ section {
   }
 }
 
-/* ========================================
-   Skills
-======================================== */
+// skills
 #skills {
-  text-align: center; /* 让标题与整体内容居中 */
+  text-align: center;
   .skills-bg {
     width: 100%;
   }
@@ -559,14 +559,12 @@ section {
   }
 }
 
-/* ========================================
-   Gallery（全宽固定背景面板）
-======================================== */
+// Gallery
 #gallery {
   width: 100dvw;
   margin-left: calc(50% - 50dvw);
   min-height: clamp(420px, 60vh, 780px);
-  padding-block: 0; /* 覆盖 section 的默认 padding */
+  padding-block: 0;
   position: relative;
   z-index: 0;
 
@@ -602,9 +600,7 @@ section {
   }
 }
 
-/* ========================================
-   Video (optional)
-======================================== */
+// video
 #video .video-card {
   @include glass;
   padding: $space-4;
@@ -678,7 +674,34 @@ section {
     width: min(1400px, 85vw);
     max-height: 85vh;
     overflow: auto;
+    #projectLinkWrap {
+      margin-top:12px;
+    }
   }
+}
+
+#contactBtn {
+  padding: 12px 28px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+#contactBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+#contactBtn:active {
+  transform: scale(0.96);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 // Footer
@@ -762,7 +785,7 @@ footer {
   }
 }
 @media (max-width: map-get($bp, lg)) {
-  #about .about-container { gap: 24px;
+  #about .about_container { gap: 24px;
   }
 }
 @media (max-width: map-get($bp, md)) {
