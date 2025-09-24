@@ -7,7 +7,7 @@ const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 const on = (el, evt, handler, opts) => el?.addEventListener(evt, handler, opts);
 const create = (tag, props = {}) => Object.assign(document.createElement(tag), props);
 
-// Gallery background position (safe no-op if missing)
+// Gallery background position
 const positionGalleryBg = () => {
   const gallerySection = $('#gallery');
   const galleryBg = $('.gallery-bg');
@@ -18,7 +18,7 @@ const positionGalleryBg = () => {
 on(window, 'resize', positionGalleryBg);
 on(window, 'load', positionGalleryBg);
 
-// Smooth scroll with sticky-offset
+// Smooth 
 const smoothScrollTo = (targetEl, offset = 0) => {
   if (!targetEl) return;
   const prefersNoMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -26,13 +26,12 @@ const smoothScrollTo = (targetEl, offset = 0) => {
   window.scrollTo({ top, behavior: prefersNoMotion ? 'auto' : 'smooth' });
 };
 
-// Navbar + Scroll Indicator
+// Navbar
 const initNavbar = () => {
   const navbar = $('#navbar');
   const navLinks = $$('#navbar ul li a');
   const indicator = $('#scroll-indicator');
 
-// 页面 section 列表（用于高亮）
   const sections = ['#hero', '#about', '#experience', '#projects', '#skills', '#contact']
     .map(sel => $(sel))
     .filter(Boolean);
@@ -55,7 +54,6 @@ const initNavbar = () => {
     const progress = Math.min(1, scrollBottom / docHeight);
     if (indicator) indicator.style.width = `${progress * 100}%`;
 
-    // 到底部：高亮最后一项
     if (scrollBottom >= docHeight - 1) {
       navLinks.forEach(l => l.classList.remove('active'));
       navLinks[navLinks.length - 1]?.classList.add('active');
@@ -74,7 +72,6 @@ const initNavbar = () => {
     navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === id));
   };
 
-  // 平滑滚动（考虑 sticky 高度）
   navLinks.forEach(a => {
     on(a, 'click', ev => {
       const hash = a.getAttribute('href');
@@ -87,18 +84,16 @@ const initNavbar = () => {
       const navHeight = navbar.getBoundingClientRect().height;
       smoothScrollTo(target, navHeight);
 
-      history.replaceState(null, '', hash); // 地址栏 hash
-      // 立即高亮，滚动后 setActiveLink 会再次校正
+      history.replaceState(null, '', hash);
+    
       navLinks.forEach(l => l.classList.remove('active'));
       a.classList.add('active');
     });
   });
 
-  // 初始与滚动
   resizeNavbar();
   setActiveLink();
 
-  // 使用 rAF 合并回流
   let ticking = false;
   const onScroll = () => {
     if (ticking) return;
@@ -112,7 +107,7 @@ const initNavbar = () => {
   on(window, 'scroll', onScroll, { passive: true });
 };
 
-// Reveal on scroll (IntersectionObserver)
+// Reveal on scroll
 const initReveals = () => {
   const els = $$('.reveal');
   if (!els.length) return;
@@ -131,11 +126,10 @@ const initReveals = () => {
 
   els.forEach(el => io.observe(el));
 
-  // 初始轻微延时入场
   setTimeout(() => els.forEach(el => el.classList.add('visible')), 50);
 };
 
-// Basic Modal helpers (shared)
+// helpers
 const makeModalControls = modalEl => {
   if (!modalEl) return {};
   const closeBtn = $('.close', modalEl);
@@ -162,7 +156,7 @@ const initContactModal = () => {
   return { open, close };
 };
 
-// Experience detail modal
+// modal
 const initExperienceModal = () => {
   const modal = $('#projectModal');
   if (!modal) return;
@@ -200,7 +194,6 @@ const initExperienceModal = () => {
     return { title, desc, paragraphs: [desc] };
   };
 
-  // 每个 xp-item 可点击 + 键盘可用
   $$('#experience .xp-item').forEach(card => {
     card.style.cursor = 'pointer';
     card.tabIndex = 0;
@@ -227,7 +220,6 @@ const initCarousel = () => {
   const root = $('#projects .carousel');
   if (!root) return;
 
-  // 复用或创建结构
   let viewport = $('.viewport', root);
   let track = $('.track', root);
 
@@ -235,7 +227,6 @@ const initCarousel = () => {
     viewport = create('div', { className: 'viewport' });
     track = create('div', { className: 'track' });
 
-    // 把现有 .slide 包进 track
     $$('.slide', root).forEach(s => track.appendChild(s));
     viewport.appendChild(track);
     root.insertBefore(viewport, root.firstChild);
@@ -247,7 +238,6 @@ const initCarousel = () => {
   const prevBtn = $('.prev', root);
   const nextBtn = $('.next', root);
 
-  // 创建或复用圆点容器（居中）
   let dotsWrap = $('.dots', root);
   if (!dotsWrap) {
     dotsWrap = create('div', { className: 'dots' });
@@ -280,11 +270,8 @@ const initCarousel = () => {
   });
 
   update();
-  // 可选自动播放：
-  // setInterval(() => go(index + 1), 6000);
 };
 
-// Bootstrap on DOM ready
 on(document, 'DOMContentLoaded', () => {
   positionGalleryBg();
   initNavbar();
