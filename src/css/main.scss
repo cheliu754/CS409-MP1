@@ -24,6 +24,20 @@ $z: (
 // end Definition
 
 
+// Color Definition
+$colors: (
+  brand:   #5a67d8,
+  brand2:  #0ea5e9,
+  accent:  #4cafef,
+  bg:      #0a0f1d,
+  surface: #0f172a,
+  text:    #e5e7eb,
+  muted:   #9ca3af,
+  white:   #ffffff,
+  black:   #000000,
+  border:  a(white, .55)
+);
+
 // color function
 @function c($key) { @return map-get($colors, $key); }
 
@@ -69,21 +83,6 @@ $z: (
     outline: 2px dashed $color; outline-offset: 3px;
   }
 }
-
-
-// Color Definition
-$colors: (
-  brand:   #5a67d8,
-  brand2:  #0ea5e9,
-  accent:  #4cafef,
-  bg:      #0a0f1d,
-  surface: #0f172a,
-  text:    #e5e7eb,
-  muted:   #9ca3af,
-  white:   #ffffff,
-  black:   #000000,
-  border:  a(white, .55)
-);
 
 $border:                 a(white, .25);
 $glass-bg:               a(white, .05);
