@@ -327,9 +327,6 @@ section {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
-
-    @include respond(md) { grid-template-columns: repeat(2, 1fr); }
-    @include respond(xs) { grid-template-columns: 1fr; }
   }
 
   .xp-item {
@@ -556,10 +553,17 @@ section {
 
   .modal-content {
     @include glass;
-    width: min(560px, 92vw);
-    padding: 22px;
+    width: min(700px, 90vw);
+    padding: 28px;
     position: relative;
     animation: scaleIn .2s ease;
+
+    background: a(surface, .85);
+    backdrop-filter: saturate(140%) blur(14px);
+    box-shadow: 0 16px 48px a(black, .45);
+    min-height: 40vh;
+    max-height: 90vh;
+    overflow: auto;
 
     .close {
       position: absolute;
@@ -584,8 +588,8 @@ section {
 
   /* 经验详情弹窗：占据 75% 视窗（需求） */
   .modal-content.project-modal {
-    width: min(1200px, 75vw);
-    max-height: 75vh;
+    width: min(1400px, 85vw);
+    max-height: 85vh;
     overflow: auto;
   }
 }
